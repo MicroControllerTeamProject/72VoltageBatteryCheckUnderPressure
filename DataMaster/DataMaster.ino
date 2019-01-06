@@ -20,22 +20,32 @@ uint8_t ciclo = 0;
 
 void loop()
 {
-	if (status[ciclo])
-	{
-		if (ciclo == 6)
+		if (ciclo == 2)
 		{
 			ciclo = 0;
+			status[0] = false;
+			status[1] = false;
+			status[2] = false;
+			status[3] = false;
+			status[4] = false;
+			status[5] = false;
 		}
-		ciclo++;
-	}
 
-	trasmitMessageToSlave(devicesID[ciclo]);
+		if (!status[ciclo])
+		{
+			trasmitMessageToSlave(devicesID[ciclo]);
 
-	//wait for receve data from slave
-	for (int i = 0; i < 50; i++)
-	{
-		if (receiveMessageFromSlave(devicesID[ciclo])) return;
-	}
+			//wait for receve data from slave
+			for (int i = 0; i < 3; i++)
+			{
+				if (receiveMessageFromSlave(devicesID[ciclo]))
+				{
+					ciclo++;
+					return;
+				}
+			}
+		}
+	
 }
 void trasmitMessageToSlave(char* deviceId)
 {

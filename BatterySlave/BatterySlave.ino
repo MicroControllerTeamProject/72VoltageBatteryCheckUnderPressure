@@ -4,7 +4,7 @@
 RFWirelessReceiver rfWirelessReceiver(11, 13, 500);
 RFWirelessTransmitter rFWirelessTransmitter(12, 50, 500);
 
-char* deviceid = "B0";
+char* deviceid = "B1";
 
 void setup()
 {
@@ -54,7 +54,12 @@ void checkArrivedMessageFromMaster()
 			}
 
 		} while (data != "OK" && data != "KO");
-		sendDataToMaster();
+
+		if (rfWirelessReceiver.GetDeviceId() == deviceid)
+		{
+			sendDataToMaster();
+		}
+		
 	}
 	
 }
