@@ -9,6 +9,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DataMaster", "DataMaster\Da
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BatterySlave", "BatterySlave\BatterySlave.vcxproj", "{76A41E32-078A-445C-846E-F28734A80890}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Eagle", "Eagle", "{A2DA39F5-C64B-4C27-85A7-26D15B13C7AE}"
+	ProjectSection(SolutionItems) = preProject
+		Eagle\12VAttinyDischargeChecker.brd = Eagle\12VAttinyDischargeChecker.brd
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
