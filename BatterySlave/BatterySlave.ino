@@ -15,7 +15,7 @@ RFWirelessTransmitter rFWirelessTransmitter(12, 50, 500);
 //deviceid[1] = a[0];
 //Serial.print("Device name :"); Serial.println(deviceid);
 
-char* deviceid = "B1";
+char* deviceid = "B";
 
 void setup()
 {
@@ -24,6 +24,20 @@ void setup()
 	rfWirelessReceiver.begin();
 	rFWirelessTransmitter.begin();
 	Serial.println("Begin receveing");
+
+	byte dPinsConfiguration = 0b000;
+	for (int i = 0; i < 3; i++) {
+		Serial.println(digitalRead(5 + i));
+		dPinsConfiguration = dPinsConfiguration | (digitalRead(5 + i) << i);
+	}
+	uint8_t n = dPinsConfiguration;
+	char a[1];
+	dtostrf(n, 1, 0, a);
+
+	strcat(deviceid, a);
+
+	//Serial.println(deviceid);
+
 }
 void loop()
 {
@@ -70,9 +84,9 @@ void checkArrivedMessageFromMaster()
 		{
 			sendDataToMaster();
 		}
-		
+
 	}
-	
+
 }
 
 
