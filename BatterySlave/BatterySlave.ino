@@ -4,17 +4,6 @@
 RFWirelessReceiver rfWirelessReceiver(11, 13, 500);
 RFWirelessTransmitter rFWirelessTransmitter(12, 50, 500);
 
-//byte dPinsConfiguration = 0b000;
-//for (int i = 0; i < 3; i++) {
-//	Serial.println(digitalRead(5 + i));
-//	dPinsConfiguration = dPinsConfiguration | (digitalRead(5 + i) << i);
-//}
-//uint8_t n = dPinsConfiguration;
-//char a[1];
-//dtostrf(n, 1, 0, a);
-//deviceid[1] = a[0];
-//Serial.print("Device name :"); Serial.println(deviceid);
-
 char* deviceid = "B";
 
 void setup()
@@ -25,23 +14,27 @@ void setup()
 	rFWirelessTransmitter.begin();
 	Serial.println("Begin receveing");
 
+	uint8_t digitalToNumber = getPinsConfiguration();
+	char numberToString[1];
+	dtostrf(digitalToNumber, 1, 0, numberToString);
+	strcat(deviceid, numberToString);
+	//Serial.println(deviceid);
+
+}
+
+void loop()
+{
+	checkArrivedMessageFromMaster();
+}
+
+byte getPinsConfiguration()
+{
 	byte dPinsConfiguration = 0b000;
 	for (int i = 0; i < 3; i++) {
 		Serial.println(digitalRead(5 + i));
 		dPinsConfiguration = dPinsConfiguration | (digitalRead(5 + i) << i);
 	}
-	uint8_t n = dPinsConfiguration;
-	char a[1];
-	dtostrf(n, 1, 0, a);
-
-	strcat(deviceid, a);
-
-	//Serial.println(deviceid);
-
-}
-void loop()
-{
-	checkArrivedMessageFromMaster();
+	return dPinsConfiguration;
 }
 
 void checkArrivedMessageFromMaster()
@@ -88,7 +81,6 @@ void checkArrivedMessageFromMaster()
 	}
 
 }
-
 
 void sendDataToMaster()
 {
