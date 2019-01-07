@@ -8,15 +8,6 @@ RFWirelessTransmitter rFWirelessTransmitter(12, 50, 500);
 char* devicesID[6] = { "B0","B1","B2","B3","B4","B5" };
 bool  status[6] = { false,false,false,false,false,false };
 
-
-//byte  dState = 0b000;
-//for (int i = 0; i < 4; i++) {
-//	Serial.println(digitalRead(5 + i));
-//	dState = dState | (digitalRead(5 + i) << i);
-//}
-//uint8_t n = dState;
-//Serial.print("Dato :"); Serial.println(dState, DEC);
-
 void setup()
 {
 	pinMode(13, OUTPUT);

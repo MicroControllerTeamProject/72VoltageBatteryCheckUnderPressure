@@ -4,6 +4,17 @@
 RFWirelessReceiver rfWirelessReceiver(11, 13, 500);
 RFWirelessTransmitter rFWirelessTransmitter(12, 50, 500);
 
+//byte dPinsConfiguration = 0b000;
+//for (int i = 0; i < 3; i++) {
+//	Serial.println(digitalRead(5 + i));
+//	dPinsConfiguration = dPinsConfiguration | (digitalRead(5 + i) << i);
+//}
+//uint8_t n = dPinsConfiguration;
+//char a[1];
+//dtostrf(n, 1, 0, a);
+//deviceid[1] = a[0];
+//Serial.print("Device name :"); Serial.println(deviceid);
+
 char* deviceid = "B1";
 
 void setup()
