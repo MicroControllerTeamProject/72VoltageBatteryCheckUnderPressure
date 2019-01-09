@@ -12,7 +12,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Eagle", "Eagle", "{A2DA39F5-C64B-4C27-85A7-26D15B13C7AE}"
 	ProjectSection(SolutionItems) = preProject
 		Eagle\12VAttinyDischargeChecker-A.brd = Eagle\12VAttinyDischargeChecker-A.brd
+		Eagle\12VAttinyDischargeChecker-A2.brd = Eagle\12VAttinyDischargeChecker-A2.brd
 		Eagle\12VAttinyDischargeChecker-B.brd = Eagle\12VAttinyDischargeChecker-B.brd
+		Eagle\12VAttinyDischargeChecker-B2.brd = Eagle\12VAttinyDischargeChecker-B2.brd
 	EndProjectSection
 EndProject
 Global
