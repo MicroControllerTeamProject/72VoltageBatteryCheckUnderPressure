@@ -13,8 +13,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Eagle", "Eagle", "{A2DA39F5
 	ProjectSection(SolutionItems) = preProject
 		Eagle\12VAttinyDischargeChecker-A.brd = Eagle\12VAttinyDischargeChecker-A.brd
 		Eagle\12VAttinyDischargeChecker-A2.brd = Eagle\12VAttinyDischargeChecker-A2.brd
+		Eagle\12VAttinyDischargeChecker-A3.brd = Eagle\12VAttinyDischargeChecker-A3.brd
 		Eagle\12VAttinyDischargeChecker-B.brd = Eagle\12VAttinyDischargeChecker-B.brd
 		Eagle\12VAttinyDischargeChecker-B2.brd = Eagle\12VAttinyDischargeChecker-B2.brd
+		Eagle\12VAttinyDischargeChecker-B3.brd = Eagle\12VAttinyDischargeChecker-B3.brd
+		Eagle\12VAttinyDischargeChecker-SingleModule.brd = Eagle\12VAttinyDischargeChecker-SingleModule.brd
 	EndProjectSection
 EndProject
 Global
