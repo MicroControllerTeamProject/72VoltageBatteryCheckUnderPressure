@@ -4,7 +4,7 @@
 RFWirelessReceiver rfWirelessReceiver(11, 13, 500);
 RFWirelessTransmitter rFWirelessTransmitter(12, 50, 500);
 
-char* deviceid = "B";
+char deviceid[3];
 
 void setup()
 {
@@ -14,25 +14,42 @@ void setup()
 	rFWirelessTransmitter.begin();
 	Serial.println("Begin receveing");
 
-	uint8_t digitalToNumber = getPinsConfiguration();
-	char numberToString[1];
-	dtostrf(digitalToNumber, 1, 0, numberToString);
-	strcat(deviceid, numberToString);
-	//Serial.println(deviceid);
+	pinMode(4, INPUT_PULLUP);
+	pinMode(5, INPUT_PULLUP);
+	pinMode(6, INPUT_PULLUP);
+	pinMode(7, INPUT_PULLUP);
+	pinMode(8, INPUT_PULLUP);
 
+	uint8_t digitalToNumber = getPinsConfiguration();
+	digitalToNumber = digitalToNumber - 30;
+
+	char* numberToString;
+
+	int index = 1;
+
+	if (digitalToNumber > 9) 
+	{
+		index = 2;
+	}
+	numberToString = new char[index];
+	dtostrf(digitalToNumber, index, 0, numberToString);
+	Serial.println(numberToString);
+	strcpy(deviceid, "B");
+	strcat(deviceid, numberToString);
 }
 
 void loop()
 {
+	Serial.print("Dispositivo in attesa : "); Serial.println(deviceid);
 	checkArrivedMessageFromMaster();
 }
 
 byte getPinsConfiguration()
 {
-	byte dPinsConfiguration = 0b000;
-	for (int i = 0; i < 3; i++) {
-		Serial.println(digitalRead(5 + i));
-		dPinsConfiguration = dPinsConfiguration | (digitalRead(5 + i) << i);
+	byte dPinsConfiguration = 0b00000;
+	for (int i = 0; i < 5; i++) {
+		Serial.println(digitalRead(4 + i));
+		dPinsConfiguration = dPinsConfiguration | (digitalRead(4 + i) << i);
 	}
 	return dPinsConfiguration;
 }
@@ -43,6 +60,7 @@ void checkArrivedMessageFromMaster()
 	String data = "";
 	//data = rfWirelessReceiver.GetMessage("BI","A0");
 	data = rfWirelessReceiver.GetMessage();
+	Serial.println(data);
 	if (data == "init device transmission")
 	{
 		do {
@@ -61,9 +79,10 @@ void checkArrivedMessageFromMaster()
 			}
 			if (data != "" && rfWirelessReceiver.GetDeviceId() == "GO")
 			{
-				Serial.println("Store data");
+				
 				if (data == "OK")
 				{
+					Serial.println("Store data");
 					digitalWrite(13, HIGH);
 					delay(500);
 					digitalWrite(13, LOW);
@@ -75,6 +94,7 @@ void checkArrivedMessageFromMaster()
 
 		if (rfWirelessReceiver.GetDeviceId() == deviceid)
 		{
+			//Serial.println("Invio");
 			sendDataToMaster();
 		}
 
@@ -85,12 +105,12 @@ void checkArrivedMessageFromMaster()
 void sendDataToMaster()
 {
 	rFWirelessTransmitter.startTrasmission(deviceid, "XX", 1);
-	float data = 15.00;
+	float data = analogRead(A0);
 	/*while (data < 0.50)
 	{
 		data = data + 0.05;*/
 
-	rFWirelessTransmitter.SendBufferData(deviceid, "X", "XX", data, "0", "0");
+	rFWirelessTransmitter.SendBufferData(deviceid, "XX", "X", data, "0", "0");
 	//}
 	rFWirelessTransmitter.endTrasmission(deviceid, "XX");
 }

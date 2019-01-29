@@ -32,6 +32,8 @@ void loop()
 
 		if (!status[ciclo])
 		{
+			Serial.print("Data Master find slave number "); Serial.println(ciclo);
+
 			trasmitMessageToSlave(devicesID[ciclo]);
 
 			//wait for receve data from slave

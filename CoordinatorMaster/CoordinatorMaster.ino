@@ -1,9 +1,10 @@
 #include <VirtualWire.h>
 #include <RFWirelessTransmitter.h>
-RFWirelessTransmitter rFWirelessTransmitter(0, 50, 500);
+RFWirelessTransmitter rFWirelessTransmitter(12, 50, 500);
 
 void setup()
 {
+	Serial.begin(9600);
 	rFWirelessTransmitter.begin();
 }
 
