@@ -36,7 +36,8 @@ void loop()
 			
 			trasmitMessageToSlave(devicesID[ciclo]);
 
-			while (!receiveMessageFromSlave(devicesID[ciclo]))
+			unsigned long startTime = millis();
+			while (!receiveMessageFromSlave(devicesID[ciclo]) && ((millis()-startTime)<3000))
 			{
 
 			}

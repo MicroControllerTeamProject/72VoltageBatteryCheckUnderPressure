@@ -81,9 +81,8 @@ void checkArrivedMessageFromMaster()
 	String data = "";
 	//data = rfWirelessReceiver.GetMessage("BI","A0");
 	data = rfWirelessReceiver.GetMessage();
-	Serial.println(data);
 
-	
+	Serial.println(data);
 
 	if (data == "init device transmission")
 	{
@@ -96,9 +95,9 @@ void checkArrivedMessageFromMaster()
 				Serial.println(data);
 				if (data == "OK")
 				{
-					digitalWrite(13, HIGH);
+					/*digitalWrite(13, HIGH);
 					delay(500);
-					digitalWrite(13, LOW);
+					digitalWrite(13, LOW);*/
 					result = true;
 				}
 			}
@@ -107,9 +106,9 @@ void checkArrivedMessageFromMaster()
 				if (data == "OK")
 				{
 					Serial.print(" Store data in sequence number: "); Serial.println(rfWirelessReceiver.GetSensorID());
-					digitalWrite(13, HIGH);
+				/*	digitalWrite(13, HIGH);
 					delay(500);
-					digitalWrite(13, LOW);
+					digitalWrite(13, LOW);*/
 					result = true;
 				}
 			}
@@ -119,6 +118,8 @@ void checkArrivedMessageFromMaster()
 		if (rfWirelessReceiver.GetDeviceId() == deviceid)
 		{
 			//Serial.println("Invio");
+			//wait before send data after receve data
+			delay(500);
 			sendDataToMaster();
 		}
 
