@@ -40,6 +40,8 @@ void setup()
 	pinMode(8, INPUT_PULLUP);
 
 	uint8_t digitalToNumber = getPinsConfiguration();
+
+	//Usato per bypassare il sistema dei jumpers
 	//digitalToNumber = digitalToNumber - 30;
 
 	char* numberToString;
@@ -80,8 +82,12 @@ void checkArrivedMessageFromMaster()
 	//data = rfWirelessReceiver.GetMessage("BI","A0");
 	data = rfWirelessReceiver.GetMessage();
 	Serial.println(data);
+
+	
+
 	if (data == "init device transmission")
 	{
+		unsigned long startTime = millis();
 		do {
 			data = rfWirelessReceiver.GetMessage();
 			if (data != "" && rfWirelessReceiver.GetDeviceId() == deviceid)
@@ -98,10 +104,9 @@ void checkArrivedMessageFromMaster()
 			}
 			if (data != "" && rfWirelessReceiver.GetDeviceId() == "GO")
 			{
-				
 				if (data == "OK")
 				{
-					Serial.println("Store data");
+					Serial.print(" Store data in sequence number: "); Serial.println(rfWirelessReceiver.GetSensorID());
 					digitalWrite(13, HIGH);
 					delay(500);
 					digitalWrite(13, LOW);
@@ -109,7 +114,7 @@ void checkArrivedMessageFromMaster()
 				}
 			}
 
-		} while (data != "OK" && data != "KO");
+		} while (data != "OK" && data != "KO" && ((millis() - startTime) < 5000));
 
 		if (rfWirelessReceiver.GetDeviceId() == deviceid)
 		{
@@ -131,7 +136,7 @@ void sendDataToMaster()
 	{
 		data = data + 0.05;*/
 
-	rFWirelessTransmitter.SendBufferData(deviceid, "XX", "X", data, "0", "0");
+	rFWirelessTransmitter.sendBufferData(deviceid, "XX", "X", data, "0", "0");
 	//}
 	rFWirelessTransmitter.endTrasmission(deviceid, "XX");
 }

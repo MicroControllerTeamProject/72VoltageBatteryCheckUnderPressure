@@ -5,7 +5,7 @@
 RFWirelessReceiver rfWirelessReceiver(11, 13, 500);
 RFWirelessTransmitter rFWirelessTransmitter(12, 50, 500);
 
-char* devicesID[6] = { "B31","B1","B2","B3","B4","B5" };
+char* devicesID[6] = { "B1","B1","B1","B1","B1","B1" };
 bool  status[6] = { false,false,false,false,false,false };
 
 void setup()
@@ -19,7 +19,7 @@ uint8_t ciclo = 0;
 
 void loop()
 {
-		if (ciclo == 2)
+		if (ciclo == 6)
 		{
 			ciclo = 0;
 			status[0] = false;
@@ -33,56 +33,68 @@ void loop()
 		if (!status[ciclo])
 		{
 			Serial.print("Data Master find slave "); Serial.println(devicesID[ciclo]);
-
+			
 			trasmitMessageToSlave(devicesID[ciclo]);
 
-			//wait for receve data from slave
-			for (int i = 0; i < 3; i++)
+			while (!receiveMessageFromSlave(devicesID[ciclo]))
 			{
-				if (receiveMessageFromSlave(devicesID[ciclo]))
-				{
-					ciclo++;
-					return;
-				}
+
 			}
+			ciclo++;
+			//wait before trasmit an otherone.
+			delay(500);
+	
 		}
 	
 }
 void trasmitMessageToSlave(char* deviceId)
 {
 	rFWirelessTransmitter.startTrasmission(deviceId, "XX", 1);
+
 	float data = 0.00;
 	/*while (data < 0.10)
 	{
 		data = data + 0.05;*/
-	rFWirelessTransmitter.SendBufferData(deviceId, "XX", "X", data, "0", "0");
+	rFWirelessTransmitter.sendBufferData(deviceId, "XX", "X", data, "0", "0");
 	//}
 	rFWirelessTransmitter.endTrasmission(deviceId, "XX");
 }
 bool receiveMessageFromSlave(char* deviceId)
 {
 	bool response = false;
-	String data = "";
+	String message = "";
 	//data = rfWirelessReceiver.GetMessage("BI","A0");
-	data = rfWirelessReceiver.GetMessage();
-	if (data == "init device transmission")
+	message = rfWirelessReceiver.GetMessage();
+	if (message == "init device transmission")
 	{
+		unsigned long startTime = millis();
+		float sensorValue = 0.00;
 		do {
-			data = rfWirelessReceiver.GetMessage();
-			if (data != "" && rfWirelessReceiver.GetDeviceId() == deviceId)
+			message = rfWirelessReceiver.GetMessage();
+			if (message != "" && rfWirelessReceiver.GetDeviceId() == deviceId)
 			{
 				//Program Business Logic : Insert here your logic
-				Serial.println(data);
-				if (data == "OK")
+				//Serial.println(message);
+				
+				if (message == "OK")
 				{
-					digitalWrite(13, HIGH);
+					/*digitalWrite(13, HIGH);
 					delay(500);
-					digitalWrite(13, LOW);
+					digitalWrite(13, LOW);*/
 					response = true;
 					status[ciclo] = true;
 				}
+				else
+				{
+					sensorValue = rfWirelessReceiver.GetSensorValue().toFloat();
+					Serial.print("Sensor value : "); Serial.println(sensorValue);
+				}
 			}
-		} while (data != "OK" && data != "KO");
+		} while (message != "OK" && message != "KO" && ((millis() - startTime) < 3000));
+		if (message == "OK" &&  sensorValue != 0.00)
+		{
+			Serial.println("Dato ricevuto correttamente");
+		}
 	}
 	return response;
 }
