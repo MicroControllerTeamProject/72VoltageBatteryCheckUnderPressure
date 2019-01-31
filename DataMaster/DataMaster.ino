@@ -5,7 +5,7 @@
 RFWirelessReceiver rfWirelessReceiver(11, 13, 500);
 RFWirelessTransmitter rFWirelessTransmitter(12, 50, 500);
 
-char* devicesID[6] = { "B1","B1","B1","B1","B1","B1" };
+char* devicesID[6] = { "B1","B2","B3","B4","B5","B6" };
 bool  status[6] = { false,false,false,false,false,false };
 
 void setup()
@@ -41,7 +41,11 @@ void loop()
 			{
 
 			}
-			ciclo++;
+			if ((millis() - startTime) < 3000)
+			{
+				ciclo++;
+			}
+
 			//wait before trasmit an otherone.
 			delay(500);
 	
