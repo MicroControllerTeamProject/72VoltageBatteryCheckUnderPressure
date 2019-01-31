@@ -1,8 +1,27 @@
 #include <VirtualWire.h>
 #include <RFWirelessReceiver.h>
 #include <RFWirelessTransmitter.h>
+#include <eRCaGuy_analogReadXXbit.h>
+
 RFWirelessReceiver rfWirelessReceiver(11, 13, 500);
 RFWirelessTransmitter rFWirelessTransmitter(12, 50, 500);
+
+eRCaGuy_analogReadXXbit adc;
+
+float _voltageReference = 1.54;
+
+const float MAX_READING_10_bit = 1023.0;
+const float MAX_READING_11_bit = 2046.0;
+const float MAX_READING_12_bit = 4092.0;
+const float MAX_READING_13_bit = 8184.0;
+const float MAX_READING_14_bit = 16368.0;
+const float MAX_READING_15_bit = 32736.0;
+const float MAX_READING_16_bit = 65472.0;
+const float MAX_READING_17_bit = 130944.0;
+const float MAX_READING_18_bit = 261888.0;
+const float MAX_READING_19_bit = 523776.0;
+const float MAX_READING_20_bit = 1047552.0;
+const float MAX_READING_21_bit = 2095104.0;
 
 char deviceid[3];
 
@@ -21,7 +40,7 @@ void setup()
 	pinMode(8, INPUT_PULLUP);
 
 	uint8_t digitalToNumber = getPinsConfiguration();
-	digitalToNumber = digitalToNumber - 30;
+	//digitalToNumber = digitalToNumber - 30;
 
 	char* numberToString;
 
@@ -40,7 +59,7 @@ void setup()
 
 void loop()
 {
-	Serial.print("Dispositivo in attesa : "); Serial.println(deviceid);
+	Serial.print("Dispositivo "); Serial.print(deviceid); Serial.println(" in attesa di dati ");
 	checkArrivedMessageFromMaster();
 }
 
@@ -105,7 +124,9 @@ void checkArrivedMessageFromMaster()
 void sendDataToMaster()
 {
 	rFWirelessTransmitter.startTrasmission(deviceid, "XX", 1);
-	float data = analogRead(A0);
+	float data = Voltage(A0);
+	//float data = analogRead(A0);
+	//delay(100);
 	/*while (data < 0.50)
 	{
 		data = data + 0.05;*/
@@ -113,6 +134,19 @@ void sendDataToMaster()
 	rFWirelessTransmitter.SendBufferData(deviceid, "XX", "X", data, "0", "0");
 	//}
 	rFWirelessTransmitter.endTrasmission(deviceid, "XX");
+}
+
+float Voltage(uint8_t analogicPort)
+{
+	/*Serial.println("Lettura Analogica xxValue");*/
+	uint8_t num_samples = 1; // 10 o 25
+	uint8_t bits_of_precision; //bits of precision for the ADC (Analog to Digital Converter)
+	float analog_reading; //the ADC reading
+	//16-bit ADC reading
+	bits_of_precision = 16; //bits of precision for the ADC (Analog to Digital Converter)
+	analog_reading = adc.analogReadXXbit(analogicPort, bits_of_precision, num_samples); //get the avg. of [num_samples] 16-bit readings
+	//return analog_reading;																				
+	return (analog_reading / MAX_READING_16_bit * _voltageReference);
 }
 
 

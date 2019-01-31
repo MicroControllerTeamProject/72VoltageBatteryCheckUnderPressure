@@ -5,7 +5,7 @@
 RFWirelessReceiver rfWirelessReceiver(11, 13, 500);
 RFWirelessTransmitter rFWirelessTransmitter(12, 50, 500);
 
-char* devicesID[6] = { "B0","B1","B2","B3","B4","B5" };
+char* devicesID[6] = { "B31","B1","B2","B3","B4","B5" };
 bool  status[6] = { false,false,false,false,false,false };
 
 void setup()
@@ -32,7 +32,7 @@ void loop()
 
 		if (!status[ciclo])
 		{
-			Serial.print("Data Master find slave number "); Serial.println(ciclo);
+			Serial.print("Data Master find slave "); Serial.println(devicesID[ciclo]);
 
 			trasmitMessageToSlave(devicesID[ciclo]);
 

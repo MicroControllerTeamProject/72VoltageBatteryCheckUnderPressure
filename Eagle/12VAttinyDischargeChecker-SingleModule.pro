@@ -2,24 +2,24 @@ EAGLE AutoRouter Statistics:
 
 Job           : C:/Repos/MicroControllerTeamProject/72VoltageBatteryCheckUnderPressure/Eagle/12VAttinyDischargeChecker-SingleModule.brd
 
-Start at      : 00:39:13 (1/28/2019)
-End at        : 00:39:18 (1/28/2019)
-Elapsed time  : 00:00:00
+Start at      : 23:25:14 (1/29/2019)
+End at        : 23:25:21 (1/29/2019)
+Elapsed time  : 00:00:06
 
-Signals       :    53   RoutingGrid: 47.2441 mil  Layers: 1
-Connections   :    78   predefined:  77 ( 0 Vias )
+Signals       :    42   RoutingGrid: 39.3701 mil  Layers: 1
+Connections   :    64   predefined:  60 ( 0 Vias )
 
-Router memory :   28032
+Router memory :   39672
 
 Passname          :     Route Optimize1 Optimize2 Optimize3 Optimize4
 
-Time per pass     :  00:00:00  00:00:00  00:00:00  00:00:00  00:00:00
-Number of Ripups  :         0         0         0         0         0
-max. Level        :         0         0         0         0         0
-max. Total        :         0         0         0         0         0
+Time per pass     :  00:00:06  00:00:00  00:00:00  00:00:00  00:00:00
+Number of Ripups  :        99         0         0         0         0
+max. Level        :         2         0         0         0         0
+max. Total        :         4         0         0         0         0
 
-Routed            :         1         1         1         1         1
+Routed            :         3         3         3         3         3
 Vias              :         0         0         0         0         0
-Resolution        :   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %
+Resolution        :    98.4 %    98.4 %    98.4 %    98.4 %    98.4 %
 
-Final             : 100.0% finished
+Final             : 98.4% finished
